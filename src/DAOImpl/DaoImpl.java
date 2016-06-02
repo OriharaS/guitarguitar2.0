@@ -43,7 +43,7 @@ public class DaoImpl implements IGuitarDao {
 	public List<Guitar> getGuitars() {
 		List<Guitar> guitars = new LinkedList<Guitar>();
 		Connection conn = DBUtil.getConnection();
-		String sql = "Select * From Inventory";
+		String sql = "Select * From guitar";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
