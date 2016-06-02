@@ -1,0 +1,97 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rick's Guitar</title>
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="js/bookstrap.js"></script>
+<script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h1 class="text-center">Rick's Guitar Shop!</h1>
+		</div>
+	</div>
+	<form class="bs-example bs-example-form" role="form" id="form">
+		<div class="input-group">
+			<span class="input-group-addon">type</span>
+			<input type="text" class="form-control" placeholder="type"  id="type" name="type">
+		</div>
+		<br>
+		<div class="input-group">
+			<span class="input-group-addon" >builder</span>
+			<input type="text" class="form-control" placeholder="builder" id="builder" name="builder">
+		</div>
+		<br>
+		<div class="input-group">
+			<span class="input-group-addon">backWood</span>
+			<input type="text" class="form-control" placeholder="backWood"  id="backWood" name="backWood">
+		</div>
+		<br>
+		<div class="input-group">
+			<span class="input-group-addon">topWood</span>
+			<input type="text" class="form-control" placeholder="topWood"  id="topWood" name="topWood">
+		</div>
+		<br>
+		<div class="input-group">
+			<span class="input-group-addon">model</span>
+			<input type="text" class="form-control" placeholder="model"  id="model" name="model">
+		</div>
+		<br>
+		<div class="input-group">
+			<span class="input-group-addon">numStrings</span>
+			<input type="text" class="form-control" placeholder="numStrings"  id="numStrings" name="numStrings">
+		</div>
+		<br>
+		<button type="button" class="btn btn-success">search</button>
+	</form>
+	<table id="results" border=1 width="100%">
+		<tr>
+			<th>Serial Number</th>
+			<th>Builder</th>
+			<th>Model</th>
+			<th>Spring Number</th>
+			<th>Type</th>
+			<th>Back Wood</th>
+			<th>Top Wood</th>
+			<th>Price</th>
+		</tr>
+		
+	</table>
+	<script type="text/javascript">
+		$(".btn").click(function() {
+			$.get("SearchGuitar", $("#form").serializeArray(), function(data){
+				var html = "";
+				$("#results tr:gt(0)").remove();
+				if(data['success'] === true) {
+					for(var i=0; i < data.row.length; i++) {
+						var r = data.row[i];
+						html += "<tr><td>" + r.serialNumber + "</td>";
+						html += "<td>" + r.builder + "</td>";
+						html += "<td>" + r.model + "</td>";
+						html += "<td>" + r.stringNumber + "</td>";
+						html += "<td>" + r.type + "</td>";
+						html += "<td>" + r.backWood + "</td>";
+						html += "<td>" + r.topWood + "</td>";		
+						html += "<td>" + r.price + "</td></tr>";
+					}
+					$("#results").append(html);
+				}else if(data['success'] === false){
+					for(var i = 0; i < data.row.length; i++ ) {
+						var r = data.row[i];
+						html += "<span>" + r.Tips + "</span>";
+					}
+					$("#results").append(html);
+				}else {
+					$("#tips").append('wrong！');
+				}
+			});			
+		});
+	</script>
+
+</body>
+</html>
